@@ -5,7 +5,7 @@ __version__ = "0.1.0"
 class BusinessTime(object):
     """
     BusinessTime is essentially a calendar that can be queried for
-    business-time-aware timedeltas between two datetimes.
+    business time aware timedeltas between two datetimes.
     """
 
     def __init__(self, business_hours=None, weekends=(6,7), holidays=None):
