@@ -8,8 +8,8 @@ class BusinessTimeTest(unittest.TestCase):
 
     def setUp(self):
         """
-        Tests based around January 2014, where a single holiday, MLK day,
-        falls on the 20th.
+        Tests mostly based around January 2014, where two holidays, New Years Day
+        and MLK day, falls on the 1st and 20th, respectively.
 
             January 2014
         Su Mo Tu We Th Fr Sa
@@ -19,7 +19,7 @@ class BusinessTimeTest(unittest.TestCase):
         19 20 21 22 23 24 25
         26 27 28 29 30 31
         """
-        self.bt = BusinessTime(holidays=(date(2014, 1, 20),))
+        self.bt = BusinessTime(holidays=USFederalHolidays())
 
     def test_iterdays(self):
         start = datetime(2014, 1, 16)
@@ -100,6 +100,11 @@ class BusinessTimeTest(unittest.TestCase):
         self.assertFalse(self.bt.isduringbusinesshours(datetime(2014, 1, 18, 11)))
         self.assertFalse(self.bt.isduringbusinesshours(datetime(2014, 1, 20, 11, 46, 43)))
 
+    def test_holidays_specified_as_list(self):
+        bd = BusinessTime(holidays=[date(2014, 1, 1)])
+        self.assertTrue(bd.isholiday(date(2014, 1, 1)))
+        self.assertFalse(bd.isholiday(date(2014, 1, 2)))
+
     def test_businesstimedelta_after_during(self):
         start = datetime(2014, 1, 16, 18, 30)
         end = datetime(2014, 1, 22, 10, 0)
@@ -157,24 +162,24 @@ class BusinessTimeTest(unittest.TestCase):
         )
 
     def test_businesstimedelta_during_during(self):
-        start = datetime(2014, 1, 1, 9, 12)
-        end = datetime(2014, 1, 2, 9, 10)
+        start = datetime(2014, 1, 2, 9, 12)
+        end = datetime(2014, 1, 3, 9, 10)
         self.assertEqual(
             self.bt.businesstimedelta(start, end),
             timedelta(hours=7, minutes=58)
         )
 
     def test_businesstimedelta_during_during2(self):
-        start = datetime(2014, 1, 1, 9, 10)
-        end = datetime(2014, 1, 2, 9, 12)
+        start = datetime(2014, 1, 2, 9, 10)
+        end = datetime(2014, 1, 3, 9, 12)
         self.assertEqual(
             self.bt.businesstimedelta(start, end),
             timedelta(days=1, minutes=2)
         )
 
     def test_businesstimedelta_during_during3(self):
-        start = datetime(2014, 1, 1, 9, 10)
-        end = datetime(2014, 1, 1, 9, 12)
+        start = datetime(2014, 1, 2, 9, 10)
+        end = datetime(2014, 1, 2, 9, 12)
         self.assertEqual(
             self.bt.businesstimedelta(start, end),
             timedelta(minutes=2)

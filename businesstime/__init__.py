@@ -9,23 +9,19 @@ class BusinessTime(object):
     """
 
     def __init__(self, business_hours=None, weekends=(5,6), holidays=None):
-        """
-        business_hours: 2-tuple of datetime.time objects marking the start and close of business
-        weekends: tuple of day indexes (Monday = 1, Sunday = 7) for what constitutes a weekend (not business day)
-        holidays: tuple of dates which should not be considered business days, even if they are weekdays
-        """
-        # TODO: holidays should be a generator that can be lazily evaluated
         if business_hours is None:
             business_hours = (datetime.time(9), datetime.time(17))
         self.business_hours = business_hours
 
-        # TODO: weekends should probably be a generator or a callable returning True/False
+        # TODO: weekends should maybe be a generator or a callable returning True/False
         self.weekends = weekends
 
-        if holidays is None:
-            holidays = []
-        # TODO: normalize holidays into date objects
         self.holidays = holidays
+        if callable(self.holidays) or self.holidays is None:
+            self._holidaysGeneratorStart = None
+            self._holidaysGenerator = None
+        else:
+            self._holidays = self.holidays
 
         # HACK: pick an arbitrary date so we can do math with datetime.time objects
         arbitrary_date = datetime.datetime(2014, 1, 26)
@@ -36,10 +32,20 @@ class BusinessTime(object):
     def isweekend(self, dt):
         return dt.weekday() in self.weekends
 
+    def _ensureHolidaysSpanDatetime(self, dt):
+        if callable(self.holidays):
+            if self._holidaysGeneratorStart is None or dt < self._holidaysGeneratorStart:
+                self._holidaysGeneratorStart = dt
+                self._holidaysGenerator = self.holidays(dt)
+                self._holidays = []
+            while len(self._holidays) == 0 or dt > self._holidays[-1]:
+                self._holidays.append(next(self._holidaysGenerator))
+
     def isholiday(self, dt):
         if type(dt) == datetime.datetime:
             dt = dt.date()
-        return dt in self.holidays
+        self._ensureHolidaysSpanDatetime(dt)
+        return dt in self._holidays
 
     def isbusinessday(self, dt):
         return not self.isweekend(dt) and not self.isholiday(dt)
