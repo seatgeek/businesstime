@@ -1,4 +1,5 @@
 import datetime
+import math
 
 __version__ = "0.1.0"
 
@@ -154,11 +155,11 @@ class Holidays(object):
                     return True
                 if dt.weekday() == r.get("weekday"):
                     # Check for +weekday specification
-                    if (dt.day - 1) / 7 == r.get("week") - 1:
+                    if math.floor((dt.day - 1) / 7) == r.get("week") - 1:
                         return True
                     # Check for -weekday specification
                     length = self.MONTH_LENGTHS[dt.month]
-                    if (length - dt.day) / 7 + 1 == r.get("week") * -1:
+                    if math.floor((length - dt.day) / 7) + 1 == r.get("week") * -1:
                         return True
         return False
 
