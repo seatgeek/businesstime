@@ -8,7 +8,7 @@ class BusinessTime(object):
     business time aware timedeltas between two datetimes.
     """
 
-    def __init__(self, business_hours=None, weekends=(6,7), holidays=None):
+    def __init__(self, business_hours=None, weekends=(5,6), holidays=None):
         """
         business_hours: 2-tuple of datetime.time objects marking the start and close of business
         weekends: tuple of day indexes (Monday = 1, Sunday = 7) for what constitutes a weekend (not business day)
@@ -34,7 +34,7 @@ class BusinessTime(object):
         self.open_hours = end - start
 
     def isweekend(self, dt):
-        return dt.isoweekday() in self.weekends
+        return dt.weekday() in self.weekends
 
     def isholiday(self, dt):
         if type(dt) == datetime.datetime:
