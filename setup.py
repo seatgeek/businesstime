@@ -7,7 +7,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(
-    name='BusinessTime',
+    name='businesstime',
     version=__version__,
     author='SeatGeek',
     author_email='hi@seatgeek.com',
