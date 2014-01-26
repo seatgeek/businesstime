@@ -1,3 +1,7 @@
+0.1.2
+=====
+* Fix changelog
+
 0.1.1
 =====
 * Fix pypi package
