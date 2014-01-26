@@ -1,7 +1,7 @@
 from datetime import datetime, date, timedelta
 import unittest
 
-from businesstime import BusinessTime
+from businesstime import BusinessTime, USFederalHolidays
 
 
 class BusinessTimeTest(unittest.TestCase):
@@ -186,4 +186,43 @@ class BusinessTimeTest(unittest.TestCase):
         self.assertEqual(
             self.bt.businesstimedelta(start, end),
             timedelta()
+        )
+
+
+class USFederalHolidaysTest(unittest.TestCase):
+
+    def test_2013(self):
+        holidays_gen = USFederalHolidays()
+        self.assertEqual(
+            list(holidays_gen(date(2013, 1, 1), end=date(2013, 12, 31))),
+            [
+                date(2013, 1, 1),
+                date(2013, 1, 21),
+                date(2013, 2, 18),
+                date(2013, 5, 27),
+                date(2013, 7, 4),
+                date(2013, 9, 2),
+                date(2013, 10, 14),
+                date(2013, 11, 11),
+                date(2013, 11, 28),
+                date(2013, 12, 25)
+            ]
+        )
+
+    def test_2014(self):
+        holidays_gen = USFederalHolidays()
+        self.assertEqual(
+            list(holidays_gen(date(2014, 1, 1), end=date(2014, 12, 31))),
+            [
+                date(2014, 1, 1),
+                date(2014, 1, 20),
+                date(2014, 2, 17),
+                date(2014, 5, 26),
+                date(2014, 7, 4),
+                date(2014, 9, 1),
+                date(2014, 10, 13),
+                date(2014, 11, 11),
+                date(2014, 11, 27),
+                date(2014, 12, 25)
+            ]
         )

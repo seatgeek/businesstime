@@ -133,3 +133,51 @@ class BusinessTime(object):
             prev = current
 
         return time
+
+
+class Holidays(object):
+
+    rules = []
+
+    MONTH_LENGTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    def isholiday(self, dt):
+        for r in self.rules:
+            if dt.month == r.get("month"):
+                if dt.day == r.get("day"):
+                    return True
+                if dt.weekday() == r.get("weekday"):
+                    # Check for +weekday specification
+                    if (dt.day - 1) / 7 == r.get("week") - 1:
+                        return True
+                    # Check for -weekday specification
+                    length = self.MONTH_LENGTHS[dt.month]
+                    if (length - dt.day) / 7 + 1 == r.get("week") * -1:
+                        return True
+        return False
+
+    def __call__(self, curr, end=None):
+        while end is None or curr < end:
+            if self.isholiday(curr):
+                yield curr
+            curr = curr + datetime.timedelta(days=1)
+
+
+class USFederalHolidays(Holidays):
+    """
+    List from http://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/
+    """
+
+    rules = [
+        dict(name="New Year's Day", month=1, day=1),
+        dict(name="Birthday of Martin Luther King, Jr.", month=1, weekday=0, week=3),
+        dict(name="Washington's Birthday", month=2, weekday=0, week=3),
+        dict(name="Memorial Day", month=5, weekday=0, week=-1),
+        dict(name="Independence Day", month=7, day=4),
+        dict(name="Labor Day", month=9, weekday=0, week=1),
+        dict(name="Columbus Day", month=10, weekday=0, week=2),
+        dict(name="Veterans Day", month=11, day=11),
+        dict(name="Thanksgiving Day", month=11, weekday=3, week=4),
+        dict(name="Chistmas Day", month=12, day=25),
+    ]
+
