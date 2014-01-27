@@ -9,7 +9,7 @@ class BusinessTimeTest(unittest.TestCase):
     def setUp(self):
         """
         Tests mostly based around January 2014, where two holidays, New Years Day
-        and MLK day, falls on the 1st and 20th, respectively.
+        and MLK day, fall on the 1st and 20th, respectively.
 
             January 2014
         Su Mo Tu We Th Fr Sa
