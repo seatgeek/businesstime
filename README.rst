@@ -1,6 +1,9 @@
 businesstime
 ============
 
+.. image:: https://badge.fury.io/py/businesstime.png
+    :target: http://badge.fury.io/py/businesstime
+
 .. image:: https://travis-ci.org/seatgeek/businesstime.png?branch=master
         :target: https://travis-ci.org/seatgeek/businesstime
 
