@@ -193,6 +193,25 @@ class BusinessTimeTest(unittest.TestCase):
             timedelta()
         )
 
+    def test_businesstimedelta_exactly_one_day(self):
+        start = datetime(2014, 1, 7, 10)
+        end = datetime(2014, 1, 8, 10)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(days=1)
+        )
+
+    def test_businesstimedelta_exactly_one_day2(self):
+        """
+        Test for https://github.com/seatgeek/businesstime/issues/3
+        """
+        start = datetime(2014, 1, 7, 9)
+        end = datetime(2014, 1, 8, 9)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(days=1)
+        )
+
 
 class USFederalHolidaysTest(unittest.TestCase):
 

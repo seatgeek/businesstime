@@ -99,7 +99,7 @@ class BusinessTime(object):
         if d1 > businessdays[0]:
             businessdays[0] = d1
 
-        if self.isbusinessday(d2) and d2 > datetime.datetime.combine(d2, self.business_hours[0]):
+        if self.isbusinessday(d2) and d2 >= datetime.datetime.combine(d2, self.business_hours[0]):
             businessdays.append(datetime.datetime.combine(d2, self.business_hours[1]))
             if d2 < businessdays[-1]:
                 businessdays[-1] = datetime.datetime.combine(businessdays[-1], d2.time())
