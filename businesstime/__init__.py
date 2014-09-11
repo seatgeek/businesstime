@@ -79,6 +79,8 @@ class BusinessTime(object):
         """
         Date iterator returning dates in d1 <= x < d2, excluding weekends and holidays
         """
+        if d1.date() == d2.date() and d2.time() < self.business_hours[0]:
+            return
         first = True
         for dt in self.iterdays(d1, d2):
             if first and d1.time() > self.business_hours[1]:

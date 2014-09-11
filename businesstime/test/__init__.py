@@ -137,6 +137,30 @@ class BusinessTimeTest(unittest.TestCase):
             timedelta(days=1, hours=4, minutes=45)
         )
 
+    def test_businesstimedelta_during_before(self):
+        start = datetime(2014, 8, 4, 11)
+        end = datetime(2014, 8, 6, 5)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(days=1, hours=6)
+        )
+
+    def test_businesstimedelta_before_before(self):
+        start = datetime(2014, 8, 4, 1)
+        end = datetime(2014, 8, 4, 5)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(days=0)
+        )
+
+    def test_businesstimedelta_after_after(self):
+        start = datetime(2014, 8, 4, 22)
+        end = datetime(2014, 8, 4, 23)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(days=0)
+        )
+
     def test_businesstimedelta_during_nonbusiness(self):
         start = datetime(2014, 1, 10, 16, 15)
         end = datetime(2014, 1, 12, 12, 30)
