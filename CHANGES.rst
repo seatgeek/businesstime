@@ -1,3 +1,7 @@
+0.1.5
+========
+* Fixed a bug (#7) where a datetime after business hours and a datetime during business hours were handled incorrectly
+
 0.1.4
 ========
 * Fixed a bug (#6) where two datetimes on the same day but before business hours were handled incorrectly

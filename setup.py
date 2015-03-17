@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""How to release a new version: http://guide.python-distribute.org/quickstart.html"""
+"""How to release a new version: https://packaging.python.org/en/latest/distributing.html#uploading-your-project-to-pypi"""
 
 from businesstime import __version__
 
