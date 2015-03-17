@@ -113,6 +113,20 @@ class BusinessTimeTest(unittest.TestCase):
             timedelta(days=2, hours=1)
         )
 
+    def test_businesstimedelta_1_minute_after_during(self):
+        """https://github.com/seatgeek/businesstime/issues/7"""
+        start = datetime(2015, 2, 23, 17, 0)
+        end = datetime(2015, 2, 24, 14, 20)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(hours=5, minutes=20)
+        )
+        start = datetime(2015, 2, 23, 17, 1)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(hours=5, minutes=20)
+        )
+
     def test_businesstimedelta_nonbusiness_after(self):
         start = datetime(2014, 1, 12, 12)
         end = datetime(2014, 1, 17, 19, 30)

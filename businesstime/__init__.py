@@ -79,6 +79,7 @@ class BusinessTime(object):
         """
         Date iterator returning dates in d1 <= x < d2, excluding weekends and holidays
         """
+        assert d2 >= d1
         if d1.date() == d2.date() and d2.time() < self.business_hours[0]:
             return
         first = True
@@ -119,27 +120,32 @@ class BusinessTime(object):
         and business time between d1 and d2
         """
         businessdays = self._buildSpanningDatetimes(d1, d2)
-
         time = datetime.timedelta()
-        prev = None
-        current = None
-        count = 0
-        for d in businessdays:
-            if current is None:
-                current = d
-            current = datetime.datetime.combine(d, current.time())
-            if prev is not None:
-                if prev.date() != current.date():
-                    time += datetime.timedelta(days=1)
-                if count == len(businessdays) - 1:
-                    if current > d:
-                        # We went too far
-                        time -= datetime.timedelta(days=1)
-                        time += self.open_hours - (current - d)
-                    else:
-                        time += d - current
-            count += 1
-            prev = current
+
+        if len(businessdays) == 0:
+            # HACK: manually handle the case when d1 is after business hours while d2 is during
+            if self.isduringbusinesshours(d2):
+                time += d2 - datetime.datetime.combine(d2, self.business_hours[0])
+        else:
+            prev = None
+            current = None
+            count = 0
+            for d in businessdays:
+                if current is None:
+                    current = d
+                current = datetime.datetime.combine(d, current.time())
+                if prev is not None:
+                    if prev.date() != current.date():
+                        time += datetime.timedelta(days=1)
+                    if count == len(businessdays) - 1:
+                        if current > d:
+                            # We went too far
+                            time -= datetime.timedelta(days=1)
+                            time += self.open_hours - (current - d)
+                        else:
+                            time += d - current
+                count += 1
+                prev = current
 
         return time
 
