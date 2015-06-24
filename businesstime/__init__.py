@@ -156,19 +156,24 @@ class Holidays(object):
 
     MONTH_LENGTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
+    def _day_rule_matches(self, rule, dt):
+        return dt.month == rule.get("month") and dt.day == rule.get("day")
+
+    def _weekday_rule_matches(self, rule, dt):
+        if dt.month == rule.get("month") and dt.weekday() == rule.get("weekday"):
+            # Check for +week specification
+            if math.floor((dt.day - 1) / 7) == rule.get("week") - 1:
+                return True
+            # Check for -week specification
+            length = self.MONTH_LENGTHS[dt.month]
+            if math.floor((length - dt.day) / 7) + 1 == rule.get("week") * -1:
+                return True
+        return False
+
     def isholiday(self, dt):
         for r in self.rules:
-            if dt.month == r.get("month"):
-                if dt.day == r.get("day"):
-                    return True
-                if dt.weekday() == r.get("weekday"):
-                    # Check for +weekday specification
-                    if math.floor((dt.day - 1) / 7) == r.get("week") - 1:
-                        return True
-                    # Check for -weekday specification
-                    length = self.MONTH_LENGTHS[dt.month]
-                    if math.floor((length - dt.day) / 7) + 1 == r.get("week") * -1:
-                        return True
+            if self._day_rule_matches(r, dt) or self._weekday_rule_matches(r, dt):
+                return True
         return False
 
     def __call__(self, curr, end=None):
@@ -195,4 +200,20 @@ class USFederalHolidays(Holidays):
         dict(name="Thanksgiving Day", month=11, weekday=3, week=4),
         dict(name="Chistmas Day", month=12, day=25),
     ]
+
+    def _day_rule_matches(self, rule, dt):
+        """
+        Day-of-month-specific US federal holidays that fall on Sat or Sun are
+        observed on Fri or Mon respectively. Note that this method considers
+        both the actual holiday and the day of observance to be holidays.
+        """
+        if dt.weekday() == 4:
+            sat = dt + datetime.timedelta(days=1)
+            if super(USFederalHolidays, self)._day_rule_matches(rule, sat):
+                return True
+        elif dt.weekday() == 0:
+            sun = dt - datetime.timedelta(days=1)
+            if super(USFederalHolidays, self)._day_rule_matches(rule, sun):
+                return True
+        return super(USFederalHolidays, self)._day_rule_matches(rule, dt)
 
