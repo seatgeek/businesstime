@@ -1,3 +1,7 @@
+0.1.6
+========
+* Handle US federal holidays that fall on the weekend but are observed on Friday/Monday (#8)
+
 0.1.5
 ========
 * Fixed a bug (#7) where a datetime after business hours and a datetime during business hours were handled incorrectly
