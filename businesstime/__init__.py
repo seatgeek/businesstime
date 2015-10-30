@@ -39,7 +39,6 @@ class BusinessTime(object):
             if self._holidaysGeneratorStart is None or dt < self._holidaysGeneratorStart:
                 self._holidaysGeneratorStart = dt
                 self._holidaysGenerator = self.holidays(dt)
-                self._holidays = []
             while len(self._holidays) == 0 or dt > self._holidays[-1]:
                 self._holidays.append(next(self._holidaysGenerator))
 
