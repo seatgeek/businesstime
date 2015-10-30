@@ -105,6 +105,10 @@ class BusinessTimeTest(unittest.TestCase):
         self.assertTrue(bd.isholiday(date(2014, 1, 1)))
         self.assertFalse(bd.isholiday(date(2014, 1, 2)))
 
+    def test_no_holidays(self):
+        bt = BusinessTime()
+        self.assertFalse(bt.isholiday(date(2014, 1, 1)))
+
     def test_businesstimedelta_after_during(self):
         start = datetime(2014, 1, 16, 18, 30)
         end = datetime(2014, 1, 22, 10, 0)
