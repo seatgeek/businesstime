@@ -21,6 +21,7 @@ class BusinessTime(object):
         if callable(self.holidays) or self.holidays is None:
             self._holidaysGeneratorStart = None
             self._holidaysGenerator = None
+            self._holidays = []
         else:
             self._holidays = self.holidays
 
