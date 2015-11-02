@@ -1,0 +1,101 @@
+
+from datetime import date
+from businesstime import Holidays
+
+class QueenslandPublicHolidays(Holidays):
+    """
+    http://www.qld.gov.au/recreation/travel/holidays/public/
+
+    Current coverage is only 2013-2016.
+    """
+
+    # Australian public holidays are legislated by each state individually for 
+    # each year individually. They are so messed up that trying to write 
+    # general rules to apply across all years is too hard.
+
+    _coverage_start_year = 2013
+    _coverage_end_year = 2016
+
+    holidays = [
+        # New Year's Day
+        date(2013, 1, 1),
+        date(2014, 1, 1),
+        date(2015, 1, 1),
+        date(2016, 1, 1),
+
+        # Australia Day
+        date(2013, 1, 28),
+        date(2014, 1, 27),
+        date(2015, 1, 26),
+        date(2016, 1, 26),
+
+        # Good Friday
+        date(2013, 3, 29),
+        date(2014, 4, 18),
+        date(2015, 4, 3),
+        date(2016, 3, 25),
+
+        # Easter Saturday
+        date(2013, 3, 30),
+        date(2014, 4, 19),
+        date(2015, 4, 4),
+        date(2016, 3, 26),
+
+        # Easter Monday
+        date(2013, 4, 1),
+        date(2014, 4, 21),
+        date(2015, 4, 6),
+        date(2016, 3, 28),
+
+        # ANZAC Day
+        date(2013, 4, 25),
+        date(2014, 4, 25),
+        date(2015, 4, 25),
+        date(2016, 4, 25),
+
+        # Labour Day
+        date(2013, 10, 7),
+        date(2014, 10, 6),
+        date(2015, 10, 5),
+        date(2016, 5, 2),
+
+        # Queen's Birthday
+        date(2013, 6, 10),
+        date(2014, 6, 9),
+        date(2015, 6, 8),
+        date(2016, 10, 3),
+
+        # Christmas Day
+        date(2013, 12, 25),
+        date(2014, 12, 25),
+        date(2015, 12, 25),
+        date(2016, 12, 25),
+        date(2016, 12, 27), # extra because 25 Dec is a Sunday
+
+        # Boxing Day
+        date(2013, 12, 26),
+        date(2014, 12, 26),
+        date(2015, 12, 26),
+        date(2015, 12, 28), # extra because 26 Dec is a Sunday
+        date(2016, 12, 26),
+    ]
+
+    def isholiday(self, dt):
+        if dt.year < self._coverage_start_year or dt.year > self._coverage_end_year:
+            raise NotImplementedError(
+                    'QueenslandPublicHolidays only covers the years %s to %s'
+                    % (self._coverage_start_year, self._coverage_end_year))
+        return any(holiday == dt for holiday in self.holidays)
+
+class BrisbanePublicHolidays(QueenslandPublicHolidays):
+
+    holidays = QueenslandPublicHolidays.holidays + [
+        # Royal Queensland Show Day
+        date(2013, 8, 14),
+        date(2014, 8, 13),
+        date(2015, 8, 12),
+        date(2016, 8, 10),
+
+        # G20 (2014 only)
+        date(2014, 11, 14),
+    ]
