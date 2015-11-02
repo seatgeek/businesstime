@@ -13,7 +13,7 @@ BusinessTime is a simple utility for calculating business time aware timedeltas 
 
     >>> datetime(2013, 12, 26, 5) - datetime(2013, 12, 23, 12)
     datetime.timedelta(2, 61200)
-    >>> bt = businesstime.BusinessTime(holidays=businesstime.USFederalHolidays())
+    >>> bt = businesstime.BusinessTime(holidays=businesstime.holidays.usa.USFederalHolidays())
     >>> bt.businesstimedelta(datetime(2013, 12, 23, 12), datetime(2013, 12, 26, 5))
     datetime.timedelta(1, 18000)
 

@@ -1,6 +1,6 @@
-
 from datetime import date
-from businesstime import Holidays
+from businesstime.holidays import Holidays
+
 
 class QueenslandPublicHolidays(Holidays):
     """
@@ -9,8 +9,8 @@ class QueenslandPublicHolidays(Holidays):
     Current coverage is only 2013-2016.
     """
 
-    # Australian public holidays are legislated by each state individually for 
-    # each year individually. They are so messed up that trying to write 
+    # Australian public holidays are legislated by each state individually for
+    # each year individually. They are so messed up that trying to write
     # general rules to apply across all years is too hard.
 
     _coverage_start_year = 2013
@@ -86,6 +86,7 @@ class QueenslandPublicHolidays(Holidays):
                     'QueenslandPublicHolidays only covers the years %s to %s'
                     % (self._coverage_start_year, self._coverage_end_year))
         return any(holiday == dt for holiday in self.holidays)
+
 
 class BrisbanePublicHolidays(QueenslandPublicHolidays):
 

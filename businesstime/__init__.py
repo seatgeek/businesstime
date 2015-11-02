@@ -1,7 +1,8 @@
 import datetime
-import math
+
 
 __version__ = "0.1.6"
+
 
 class BusinessTime(object):
     """
@@ -148,72 +149,3 @@ class BusinessTime(object):
                 prev = current
 
         return time
-
-
-class Holidays(object):
-
-    rules = []
-
-    MONTH_LENGTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
-    def _day_rule_matches(self, rule, dt):
-        return dt.month == rule.get("month") and dt.day == rule.get("day")
-
-    def _weekday_rule_matches(self, rule, dt):
-        if dt.month == rule.get("month") and dt.weekday() == rule.get("weekday"):
-            # Check for +week specification
-            if math.floor((dt.day - 1) / 7) == rule.get("week") - 1:
-                return True
-            # Check for -week specification
-            length = self.MONTH_LENGTHS[dt.month]
-            if math.floor((length - dt.day) / 7) + 1 == rule.get("week") * -1:
-                return True
-        return False
-
-    def isholiday(self, dt):
-        for r in self.rules:
-            if self._day_rule_matches(r, dt) or self._weekday_rule_matches(r, dt):
-                return True
-        return False
-
-    def __call__(self, curr, end=None):
-        while end is None or curr < end:
-            if self.isholiday(curr):
-                yield curr
-            curr = curr + datetime.timedelta(days=1)
-
-
-class USFederalHolidays(Holidays):
-    """
-    List from http://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays/
-    """
-
-    rules = [
-        dict(name="New Year's Day", month=1, day=1),
-        dict(name="Birthday of Martin Luther King, Jr.", month=1, weekday=0, week=3),
-        dict(name="Washington's Birthday", month=2, weekday=0, week=3),
-        dict(name="Memorial Day", month=5, weekday=0, week=-1),
-        dict(name="Independence Day", month=7, day=4),
-        dict(name="Labor Day", month=9, weekday=0, week=1),
-        dict(name="Columbus Day", month=10, weekday=0, week=2),
-        dict(name="Veterans Day", month=11, day=11),
-        dict(name="Thanksgiving Day", month=11, weekday=3, week=4),
-        dict(name="Chistmas Day", month=12, day=25),
-    ]
-
-    def _day_rule_matches(self, rule, dt):
-        """
-        Day-of-month-specific US federal holidays that fall on Sat or Sun are
-        observed on Fri or Mon respectively. Note that this method considers
-        both the actual holiday and the day of observance to be holidays.
-        """
-        if dt.weekday() == 4:
-            sat = dt + datetime.timedelta(days=1)
-            if super(USFederalHolidays, self)._day_rule_matches(rule, sat):
-                return True
-        elif dt.weekday() == 0:
-            sun = dt - datetime.timedelta(days=1)
-            if super(USFederalHolidays, self)._day_rule_matches(rule, sun):
-                return True
-        return super(USFederalHolidays, self)._day_rule_matches(rule, dt)
-
