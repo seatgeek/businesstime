@@ -34,7 +34,7 @@ class BusinessTime(object):
     def isweekend(self, dt):
         return dt.weekday() in self.weekends
 
-    def _ensureHolidaysSpanDatetime(self, dt):
+    def _ensure_holidays_span_datetime(self, dt):
         if callable(self.holidays):
             if self._holidaysGeneratorStart is None or dt < self._holidaysGeneratorStart:
                 self._holidaysGeneratorStart = dt
@@ -45,7 +45,7 @@ class BusinessTime(object):
     def isholiday(self, dt):
         if type(dt) == datetime.datetime:
             dt = dt.date()
-        self._ensureHolidaysSpanDatetime(dt)
+        self._ensure_holidays_span_datetime(dt)
         return dt in self._holidays
 
     def isbusinessday(self, dt):
@@ -91,7 +91,7 @@ class BusinessTime(object):
             if not self.isweekend(dt) and not self.isholiday(dt):
                 yield dt
 
-    def _buildSpanningDatetimes(self, d1, d2):
+    def _build_spanning_datetimes(self, d1, d2):
         businessdays = list(self.iterbusinessdays(d1, d2))
 
         if len(businessdays) == 0:
@@ -119,7 +119,7 @@ class BusinessTime(object):
         Returns a datetime.timedelta with the number of full business days
         and business time between d1 and d2
         """
-        businessdays = self._buildSpanningDatetimes(d1, d2)
+        businessdays = self._build_spanning_datetimes(d1, d2)
         time = datetime.timedelta()
 
         if len(businessdays) == 0:
