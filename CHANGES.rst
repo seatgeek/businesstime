@@ -1,4 +1,4 @@
-Unreleased
+0.2.0
 ========
 * Change package layout: country-specific holidays are stored in files named w/ their ISO 3166-1 alpha-3 country codes
 * Add 2013-2016 public holidays for Queensland/Brisbane Australia (#11), from @danc86
