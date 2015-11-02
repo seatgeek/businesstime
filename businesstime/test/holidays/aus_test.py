@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import date
 import unittest
 
 from businesstime.holidays.aus import QueenslandPublicHolidays, BrisbanePublicHolidays
