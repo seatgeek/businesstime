@@ -4,20 +4,16 @@
 
 from businesstime import __version__
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import find_packages, setup
 
 setup(
     name='businesstime',
     version=__version__,
     author='SeatGeek',
     author_email='hi@seatgeek.com',
-    packages=[
-        'businesstime',
-        'businesstime.holidays',
-    ],
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
     url='http://github.com/seatgeek/businesstime',
     license=open('LICENSE.txt').read(),
     classifiers=[
