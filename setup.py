@@ -14,7 +14,10 @@ setup(
     version=__version__,
     author='SeatGeek',
     author_email='hi@seatgeek.com',
-    packages=['businesstime'],
+    packages=[
+        'businesstime',
+        'businesstime.holidays',
+    ],
     url='http://github.com/seatgeek/businesstime',
     license=open('LICENSE.txt').read(),
     classifiers=[
