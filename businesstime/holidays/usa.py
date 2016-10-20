@@ -17,7 +17,7 @@ class USFederalHolidays(Holidays):
         dict(name="Columbus Day", month=10, weekday=0, week=2),
         dict(name="Veterans Day", month=11, day=11),
         dict(name="Thanksgiving Day", month=11, weekday=3, week=4),
-        dict(name="Chistmas Day", month=12, day=25),
+        dict(name="Christmas Day", month=12, day=25),
     ]
 
     def _day_rule_matches(self, rule, dt):
