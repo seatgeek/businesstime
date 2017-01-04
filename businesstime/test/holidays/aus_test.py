@@ -28,5 +28,5 @@ class BrisbanePublicHolidaysTest(unittest.TestCase):
     def test_out_of_range(self):
         holidays_gen = BrisbanePublicHolidays()
         def test():
-            return list(holidays_gen(date(2017, 1, 1), end=date(2017, 12, 31)))
+            return list(holidays_gen(date(2019, 1, 1), end=date(2019, 12, 31)))
         self.assertRaises(NotImplementedError, test)
