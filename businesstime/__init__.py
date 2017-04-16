@@ -85,7 +85,11 @@ class BusinessTime(object):
             return
         first = True
         for dt in self.iterdays(d1, d2):
-            if first and d1.time() > self.business_hours[1]:
+            # this checks if the start date is past business_hours
+            # should also check if the end date is before business_hours
+            # to accomodate early workers
+            if first and (d1.time() > self.business_hours[1] or \
+                d2.time() < self.business_hours[0]):
                 first = False
                 continue
             first = False
