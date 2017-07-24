@@ -254,3 +254,11 @@ class BusinessTimeTest(unittest.TestCase):
             self.bt.businesstimedelta(start, end),
             timedelta(days=1)
         )
+
+    def test_businesstimedelta_during_during_reverse(self):
+        end = datetime(2014, 1, 2, 9, 12)
+        start = datetime(2014, 1, 3, 9, 10)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end),
+            timedelta(hours=-7, minutes=-58)
+        )

@@ -120,6 +120,11 @@ class BusinessTime(object):
         Returns a datetime.timedelta with the number of full business days
         and business time between d1 and d2
         """
+
+        if d1 > d2:
+            d1, d2, timedelta_direction = d2, d1, -1
+        else:
+            timedelta_direction = 1 
         businessdays = self._build_spanning_datetimes(d1, d2)
         time = datetime.timedelta()
 
@@ -148,4 +153,4 @@ class BusinessTime(object):
                 count += 1
                 prev = current
 
-        return time
+        return time * timedelta_direction
