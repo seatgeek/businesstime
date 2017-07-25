@@ -1,12 +1,14 @@
 import math
 import datetime
+import calendar
 
 
 class Holidays(object):
 
     rules = []
 
-    MONTH_LENGTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    def month_length(self, year,month):
+        return calendar.monthrange(year,month)[1]
 
     def _day_rule_matches(self, rule, dt):
         return dt.month == rule.get("month") and dt.day == rule.get("day")
@@ -17,7 +19,7 @@ class Holidays(object):
             if math.floor((dt.day - 1) / 7) == rule.get("week") - 1:
                 return True
             # Check for -week specification
-            length = self.MONTH_LENGTHS[dt.month]
+            length = self.month_length(dt.year,dt.month)
             if math.floor((length - dt.day) / 7) + 1 == rule.get("week") * -1:
                 return True
         return False
