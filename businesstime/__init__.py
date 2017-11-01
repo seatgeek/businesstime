@@ -157,17 +157,17 @@ class BusinessTime(object):
 
     def _businesshours_delta(self):
         """
-        Returns a datetime.timedelta between BusinessTime object's business_hours
+        Returns the total number of hours within the working day's
         """
-        d1 = self.business_hours[0]
-        d2 = self.business_hours[1]
+        d1 = self.business_hours[0].hour
+        d2 = self.business_hours[1].hour
         return d2 - d1
 
-    def businesshours(self, d1, d2):
+    def businesstime_hours(self, d1, d2):
         """
         Returns the number of business hours between d1 and d2, based on the length of the businessday
         """
-        businessday_len = self._businesshours_delta().seconds / 3600
+        businessday_len = self._businesshours_delta()
         btd = self.businesstimedelta(d1, d2)
         btd_hours = btd.seconds / 3600
-        return td.days * businessday_len + btd_hours
+        return btd.days * businessday_len + btd_hours
