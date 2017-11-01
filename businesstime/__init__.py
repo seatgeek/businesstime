@@ -10,7 +10,7 @@ class BusinessTime(object):
     business time aware timedeltas between two datetimes.
     """
 
-    def __init__(self, business_hours=None, weekends=(5,6), holidays=None):
+    def __init__(self, business_hours=None, weekends=(5, 6), holidays=None):
         if business_hours is None:
             business_hours = (datetime.time(9), datetime.time(17))
         self.business_hours = business_hours
@@ -124,7 +124,7 @@ class BusinessTime(object):
         if d1 > d2:
             d1, d2, timedelta_direction = d2, d1, -1
         else:
-            timedelta_direction = 1 
+            timedelta_direction = 1
         businessdays = self._build_spanning_datetimes(d1, d2)
         time = datetime.timedelta()
 
@@ -154,3 +154,20 @@ class BusinessTime(object):
                 prev = current
 
         return time * timedelta_direction
+
+    def _businesshours_delta(self):
+        """
+        Returns a datetime.timedelta between BusinessTime object's business_hours
+        """
+        d1 = self.business_hours[0]
+        d2 = self.business_hours[1]
+        return d2 - d1
+
+    def businesshours(self, d1, d2):
+        """
+        Returns the number of business hours between d1 and d2, based on the length of the businessday
+        """
+        businessday_len = self._businesshours_delta().seconds / 3600
+        btd = self.businesstimedelta(d1, d2)
+        btd_hours = btd.seconds / 3600
+        return td.days * businessday_len + btd_hours
