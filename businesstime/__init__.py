@@ -94,7 +94,6 @@ class BusinessTime(object):
 
     def _build_spanning_datetimes(self, d1, d2):
         businessdays = list(self.iterbusinessdays(d1, d2))
-
         if len(businessdays) == 0:
             return businessdays
 
@@ -132,6 +131,14 @@ class BusinessTime(object):
             # HACK: manually handle the case when d1 is after business hours while d2 is during
             if self.isduringbusinesshours(d2):
                 time += d2 - datetime.datetime.combine(d2, self.business_hours[0])
+
+            # HACK: manually handle the case where d1 is on an earlier non-business day and d2 is after hours on a business day
+            elif not self.isbusinessday(d1) and self.isbusinessday(d2):
+                if d2.time() > self.business_hours[1]:
+                    time += datetime.datetime.combine(d2,self.business_hours[1]) - datetime.datetime.combine(d2,self.business_hours[0])
+                elif d2.time() > self.business_hours[0]:
+                    time += d2 - datetime.datetime.combine(d2, self.business_hours[0])
+
         else:
             prev = None
             current = None

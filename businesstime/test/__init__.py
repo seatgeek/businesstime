@@ -286,3 +286,36 @@ class BusinessTimeTest(unittest.TestCase):
             self.bt.businesstime_hours(start, end),
             -8
         )
+
+    def test_businesstime_out_of_hours_start(self):
+        """
+        Test for https://github.com/seatgeek/businesstime/issues/13
+        """
+        start = datetime(2014,8,9,9,0)
+        end = datetime(2014,8,11,17,0)
+        self.assertEqual(
+            self.bt.businesstime_hours(start,end),
+            8
+        )
+
+    def test_businesstime_out_of_hours_start_end(self):
+        """
+        Test for https://github.com/seatgeek/businesstime/issues/13
+        """
+        start = datetime(2014,8,9,9,0)
+        end = datetime(2014,8,11,23,0)
+        self.assertEqual(
+            self.bt.businesstime_hours(start,end),
+            8
+        )
+
+    def test_businesstime_out_of_hours_end(self):
+        """
+        Test for https://github.com/seatgeek/businesstime/issues/13
+        """
+        start = datetime(2014,8,8,9,0)
+        end = datetime(2014,8,11,23,0)
+        self.assertEqual(
+            self.bt.businesstime_hours(start,end),
+            16
+        )
