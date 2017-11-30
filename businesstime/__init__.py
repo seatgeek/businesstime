@@ -164,9 +164,8 @@ class BusinessTime(object):
 
     def businesstime_hours(self, d1, d2):
         """
-        Returns the number of business hours between d1 and d2, based on the length of the businessday
+        Returns a datetime.timedelta of business hours between d1 and d2,
+        based on the length of the businessday 
         """
-        open_hours = self.open_hours.seconds / 3600
-        btd = self.businesstimedelta(d1, d2)
-        btd_hours = btd.seconds / 3600
-        return btd.days * open_hours + btd_hours
+        closed_hours = datetime.timedelta(1) - self.open_hours
+        return self.businesstimedelta(d1, d2) - closed_hours
