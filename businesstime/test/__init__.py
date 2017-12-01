@@ -268,7 +268,7 @@ class BusinessTimeTest(unittest.TestCase):
         end = datetime(2014, 1, 17, 9, 0)
         self.assertEqual(
             self.bt.businesstime_hours(start, end),
-            8
+            timedelta(hours=8)
         )
 
     def test_businesstime_hours_one_day(self):
@@ -276,7 +276,7 @@ class BusinessTimeTest(unittest.TestCase):
         end = datetime(2014, 1, 17, 15, 0)
         self.assertEqual(
             self.bt.businesstime_hours(start, end),
-            14
+            timedelta(hours=14)
         )
 
     def test_businesstime_hours_one_day_reverse(self):
@@ -284,7 +284,7 @@ class BusinessTimeTest(unittest.TestCase):
         end = datetime(2014, 1, 16, 9, 0)
         self.assertEqual(
             self.bt.businesstime_hours(start, end),
-            -8
+            timedelta(hours=-8)
         )
 
     def test_businesstime_out_of_hours_start(self):
@@ -295,7 +295,7 @@ class BusinessTimeTest(unittest.TestCase):
         end = datetime(2014,8,11,17,0)
         self.assertEqual(
             self.bt.businesstime_hours(start,end),
-            8
+            timedelta(hours=8)
         )
 
     def test_businesstime_out_of_hours_start_end(self):
@@ -306,7 +306,7 @@ class BusinessTimeTest(unittest.TestCase):
         end = datetime(2014,8,11,23,0)
         self.assertEqual(
             self.bt.businesstime_hours(start,end),
-            8
+            timedelta(hours=8)
         )
 
     def test_businesstime_out_of_hours_end(self):
@@ -317,5 +317,5 @@ class BusinessTimeTest(unittest.TestCase):
         end = datetime(2014,8,11,23,0)
         self.assertEqual(
             self.bt.businesstime_hours(start,end),
-            16
+            timedelta(hours=16)
         )
