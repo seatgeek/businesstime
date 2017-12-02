@@ -9,7 +9,11 @@ class USFederalHolidays(Holidays):
 
     rules = [
         dict(name="New Year's Day", month=1, day=1),
-        dict(name="Birthday of Martin Luther King, Jr.", month=1, weekday=0, week=3),
+        dict(
+            name="Birthday of Martin Luther King, Jr.",
+            month=1,
+            weekday=0,
+            week=3),
         dict(name="Washington's Birthday", month=2, weekday=0, week=3),
         dict(name="Memorial Day", month=5, weekday=0, week=-1),
         dict(name="Independence Day", month=7, day=4),

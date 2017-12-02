@@ -5,12 +5,10 @@ from businesstime.holidays.usa import USFederalHolidays
 
 
 class USFederalHolidaysTest(unittest.TestCase):
-
     def test_2013(self):
         holidays_gen = USFederalHolidays()
         self.assertEqual(
-            list(holidays_gen(date(2013, 1, 1), end=date(2013, 12, 31))),
-            [
+            list(holidays_gen(date(2013, 1, 1), end=date(2013, 12, 31))), [
                 date(2013, 1, 1),
                 date(2013, 1, 21),
                 date(2013, 2, 18),
@@ -21,14 +19,12 @@ class USFederalHolidaysTest(unittest.TestCase):
                 date(2013, 11, 11),
                 date(2013, 11, 28),
                 date(2013, 12, 25)
-            ]
-        )
+            ])
 
     def test_2014(self):
         holidays_gen = USFederalHolidays()
         self.assertEqual(
-            list(holidays_gen(date(2014, 1, 1), end=date(2014, 12, 31))),
-            [
+            list(holidays_gen(date(2014, 1, 1), end=date(2014, 12, 31))), [
                 date(2014, 1, 1),
                 date(2014, 1, 20),
                 date(2014, 2, 17),
@@ -39,14 +35,12 @@ class USFederalHolidaysTest(unittest.TestCase):
                 date(2014, 11, 11),
                 date(2014, 11, 27),
                 date(2014, 12, 25)
-            ]
-        )
+            ])
 
     def test_2015(self):
         holidays_gen = USFederalHolidays()
         self.assertEqual(
-            list(holidays_gen(date(2015, 1, 1), end=date(2015, 12, 31))),
-            [
+            list(holidays_gen(date(2015, 1, 1), end=date(2015, 12, 31))), [
                 date(2015, 1, 1),
                 date(2015, 1, 19),
                 date(2015, 2, 16),
@@ -58,14 +52,12 @@ class USFederalHolidaysTest(unittest.TestCase):
                 date(2015, 11, 11),
                 date(2015, 11, 26),
                 date(2015, 12, 25)
-            ]
-        )
+            ])
 
     def test_2016(self):
         holidays_gen = USFederalHolidays()
         self.assertEqual(
-            list(holidays_gen(date(2016, 1, 1), end=date(2016, 12, 31))),
-            [
+            list(holidays_gen(date(2016, 1, 1), end=date(2016, 12, 31))), [
                 date(2016, 1, 1),
                 date(2016, 1, 18),
                 date(2016, 2, 15),
@@ -77,14 +69,12 @@ class USFederalHolidaysTest(unittest.TestCase):
                 date(2016, 11, 24),
                 date(2016, 12, 25),
                 date(2016, 12, 26)
-            ]
-        )
+            ])
 
     def test_2017(self):
         holidays_gen = USFederalHolidays()
         self.assertEqual(
-            list(holidays_gen(date(2017, 1, 1), end=date(2017, 12, 31))),
-            [
+            list(holidays_gen(date(2017, 1, 1), end=date(2017, 12, 31))), [
                 date(2017, 1, 1),
                 date(2017, 1, 2),
                 date(2017, 1, 16),
@@ -97,5 +87,4 @@ class USFederalHolidaysTest(unittest.TestCase):
                 date(2017, 11, 11),
                 date(2017, 11, 23),
                 date(2017, 12, 25)
-            ]
-        )
+            ])

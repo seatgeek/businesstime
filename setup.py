@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """How to release a new version: https://packaging.python.org/en/latest/distributing.html#uploading-your-project-to-pypi"""
 
 from businesstime import __version__
@@ -19,9 +18,9 @@ setup(
     classifiers=[
         'Programming Language :: Python :: 2.7',
     ],
-    description='A simple utility for calculating business time aware timedeltas between two datetimes',
+    description=
+    'A simple utility for calculating business time aware timedeltas between two datetimes',
     long_description=open('README.rst').read() + '\n\n' +
-                     open('CHANGES.rst').read(),
+    open('CHANGES.rst').read(),
     tests_require=['nose'],
-    test_suite='nose.collector'
-)
+    test_suite='nose.collector')
