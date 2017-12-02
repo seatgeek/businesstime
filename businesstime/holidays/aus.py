@@ -23,7 +23,7 @@ class QueenslandPublicHolidays(Holidays):
         date(2015, 1, 1),
         date(2016, 1, 1),
         date(2017, 1, 1),
-        date(2017, 1, 2), # extra because 1 Jan is a Sunday
+        date(2017, 1, 2),  # extra because 1 Jan is a Sunday
         date(2018, 1, 1),
 
         # Australia Day
@@ -91,7 +91,7 @@ class QueenslandPublicHolidays(Holidays):
         date(2014, 12, 25),
         date(2015, 12, 25),
         date(2016, 12, 25),
-        date(2016, 12, 27), # extra because 25 Dec is a Sunday
+        date(2016, 12, 27),  # extra because 25 Dec is a Sunday
         date(2017, 12, 25),
         date(2018, 12, 25),
 
@@ -99,7 +99,7 @@ class QueenslandPublicHolidays(Holidays):
         date(2013, 12, 26),
         date(2014, 12, 26),
         date(2015, 12, 26),
-        date(2015, 12, 28), # extra because 26 Dec is a Sunday
+        date(2015, 12, 28),  # extra because 26 Dec is a Sunday
         date(2016, 12, 26),
         date(2017, 12, 26),
         date(2018, 12, 26),
@@ -108,8 +108,8 @@ class QueenslandPublicHolidays(Holidays):
     def isholiday(self, dt):
         if dt.year < self._coverage_start_year or dt.year > self._coverage_end_year:
             raise NotImplementedError(
-                    'QueenslandPublicHolidays only covers the years %s to %s'
-                    % (self._coverage_start_year, self._coverage_end_year))
+                'QueenslandPublicHolidays only covers the years %s to %s' %
+                (self._coverage_start_year, self._coverage_end_year))
         return any(holiday == dt for holiday in self.holidays)
 
 

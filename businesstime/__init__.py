@@ -1,6 +1,5 @@
 import datetime
 
-
 __version__ = "0.2.1"
 
 
@@ -53,7 +52,8 @@ class BusinessTime(object):
         return not self.isweekend(dt) and not self.isholiday(dt)
 
     def isduringbusinesshours(self, dt):
-        return self.isbusinessday(dt) and self.business_hours[0] <= dt.time() < self.business_hours[1]
+        return self.isbusinessday(dt) and self.business_hours[0] <= dt.time(
+        ) < self.business_hours[1]
 
     def iterdays(self, d1, d2):
         """
@@ -97,20 +97,29 @@ class BusinessTime(object):
         if len(businessdays) == 0:
             return businessdays
 
-        businessdays = [datetime.datetime.combine(d, self.business_hours[0]) for d in businessdays]
+        businessdays = [
+            datetime.datetime.combine(d, self.business_hours[0])
+            for d in businessdays
+        ]
 
         if d1 > businessdays[0]:
             businessdays[0] = d1
 
-        if self.isbusinessday(d2) and d2 >= datetime.datetime.combine(d2, self.business_hours[0]):
-            businessdays.append(datetime.datetime.combine(d2, self.business_hours[1]))
+        if self.isbusinessday(d2) and d2 >= datetime.datetime.combine(
+                d2, self.business_hours[0]):
+            businessdays.append(
+                datetime.datetime.combine(d2, self.business_hours[1]))
             if d2 < businessdays[-1]:
-                businessdays[-1] = datetime.datetime.combine(businessdays[-1], d2.time())
+                businessdays[-1] = datetime.datetime.combine(
+                    businessdays[-1], d2.time())
         else:
             if len(businessdays) == 1:
-                businessdays.append(datetime.datetime.combine(businessdays[0], self.business_hours[1]))
+                businessdays.append(
+                    datetime.datetime.combine(businessdays[0],
+                                              self.business_hours[1]))
             else:
-                businessdays[-1] = datetime.datetime.combine(businessdays[-1], self.business_hours[1])
+                businessdays[-1] = datetime.datetime.combine(
+                    businessdays[-1], self.business_hours[1])
 
         return businessdays
 
@@ -130,14 +139,19 @@ class BusinessTime(object):
         if len(businessdays) == 0:
             # HACK: manually handle the case when d1 is after business hours while d2 is during
             if self.isduringbusinesshours(d2):
-                time += d2 - datetime.datetime.combine(d2, self.business_hours[0])
+                time += d2 - datetime.datetime.combine(d2,
+                                                       self.business_hours[0])
 
             # HACK: manually handle the case where d1 is on an earlier non-business day and d2 is after hours on a business day
             elif not self.isbusinessday(d1) and self.isbusinessday(d2):
                 if d2.time() > self.business_hours[1]:
-                    time += datetime.datetime.combine(d2,self.business_hours[1]) - datetime.datetime.combine(d2,self.business_hours[0])
+                    time += datetime.datetime.combine(
+                        d2,
+                        self.business_hours[1]) - datetime.datetime.combine(
+                            d2, self.business_hours[0])
                 elif d2.time() > self.business_hours[0]:
-                    time += d2 - datetime.datetime.combine(d2, self.business_hours[0])
+                    time += d2 - datetime.datetime.combine(
+                        d2, self.business_hours[0])
 
         else:
             prev = None
@@ -161,8 +175,6 @@ class BusinessTime(object):
                 prev = current
 
         return time * timedelta_direction
-
-
 
     def businesstime_hours(self, d1, d2):
         """
