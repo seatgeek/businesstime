@@ -107,6 +107,12 @@ class BusinessTimeTest(unittest.TestCase):
         self.assertEqual(
             self.bt.businesstimedelta(start, end), timedelta(days=4, hours=8))
 
+    def test_businesstimedelta_business_after(self):
+        start = datetime(2018, 3, 1, 19)
+        end = datetime(2018, 3, 2, 19)
+        self.assertEqual(
+            self.bt.businesstimedelta(start, end), timedelta(days=0, hours=8))
+
     def test_businesstimedelta_before_after(self):
         start = datetime(2014, 1, 13, 4)
         end = datetime(2014, 1, 17, 19, 30)
