@@ -154,7 +154,7 @@ class BusinessTime(object):
                         d2, self.business_hours[0])
 
             # HACK: manually handle the case where d1 and d2 are after business hour and one day difference on a business day
-            elif (d1.time() < self.business_hours[0] or d1.date is not d2.date) and (d2.time() > self.business_hours[1] and self.isbusinessday(d2)):
+            elif (d1.time() < self.business_hours[0] or d1.date() != d2.date()) and (d2.time() > self.business_hours[1] and self.isbusinessday(d2)):
                 time += datetime.datetime.combine(d2, self.business_hours[1]) - datetime.datetime.combine(d2, self.business_hours[0])
 
         else:
