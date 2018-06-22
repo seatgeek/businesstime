@@ -38,6 +38,7 @@ class BusinessTime(object):
         if callable(self.holidays):
             if self._holidaysGeneratorStart is None or dt < self._holidaysGeneratorStart:
                 self._holidaysGeneratorStart = dt
+                self._holidays = []
                 self._holidaysGenerator = self.holidays(dt)
             while len(self._holidays) == 0 or dt > self._holidays[-1]:
                 self._holidays.append(next(self._holidaysGenerator))
