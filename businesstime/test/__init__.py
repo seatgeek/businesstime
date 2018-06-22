@@ -298,7 +298,6 @@ class BusinessTimeTest(unittest.TestCase):
         labor_day = datetime(2018, 9, 3, 12, 0)
         christmas = datetime(2018, 12, 25, 12, 0)
 
-
         self.assertFalse(bt_cal.isholiday(non_holiday))
         self.assertTrue(bt_cal.isholiday(memorial_day))
         self.assertTrue(bt_cal.isholiday(new_year_day))
