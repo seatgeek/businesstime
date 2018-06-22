@@ -247,3 +247,64 @@ class BusinessTimeTest(unittest.TestCase):
         end = datetime(2014, 8, 11, 23, 0)
         self.assertEqual(
             self.bt.businesstime_hours(start, end), timedelta(hours=16))
+
+    def test_businesstime_holidays(self):
+        """
+        Test for https://github.com/seatgeek/businesstime/issues/25
+        """
+        bt_cal = BusinessTime(holidays=USFederalHolidays())
+
+        non_holiday = datetime(2018, 5, 31, 12, 0)
+        memorial_day = datetime(2018, 5, 28, 12, 0)
+
+        is_non_holiday_holiday = bt_cal.isholiday(non_holiday)
+        is_memorial_day_holiday = bt_cal.isholiday(memorial_day)
+
+        self.assertFalse(is_non_holiday_holiday)
+        self.assertTrue(is_memorial_day_holiday)
+
+    def test_businesstime_holidays_2(self):
+        """
+        Test for https://github.com/seatgeek/businesstime/issues/25
+        """
+        bt_cal = BusinessTime(holidays=USFederalHolidays())
+
+        non_holiday = datetime(2018, 5, 31, 12, 0)
+        memorial_day = datetime(2018, 5, 28, 12, 0)
+
+        # Note that we have flipped the order from the above test
+        # to check if memorial day is a holiday before checking if
+        # the other (non-holiday) is a holiday.
+        # Results should be the same regardless of order of calling isholiday
+        is_memorial_day_holiday = bt_cal.isholiday(memorial_day)
+        is_non_holiday_holiday = bt_cal.isholiday(non_holiday)
+
+        self.assertTrue(is_memorial_day_holiday)
+        self.assertFalse(is_non_holiday_holiday)
+
+    def test_lots_of_holidays(self):
+        """
+        Test for https://github.com/seatgeek/businesstime/issues/25
+        """
+        bt_cal = BusinessTime(holidays=USFederalHolidays())
+
+        non_holiday = datetime(2018, 5, 31, 12, 0)
+        non_holiday2 = datetime(2018, 2, 3, 12, 0)
+        non_holiday3 = datetime(2018, 6, 4, 12, 0)
+        non_holiday4 = datetime(2018, 11, 21, 12, 0)
+
+        memorial_day = datetime(2018, 5, 28, 12, 0)
+        new_year_day = datetime(2018, 1, 1, 12, 0)
+        labor_day = datetime(2018, 9, 3, 12, 0)
+        christmas = datetime(2018, 12, 25, 12, 0)
+
+
+        self.assertFalse(bt_cal.isholiday(non_holiday))
+        self.assertTrue(bt_cal.isholiday(memorial_day))
+        self.assertTrue(bt_cal.isholiday(new_year_day))
+        self.assertFalse(bt_cal.isholiday(non_holiday2))
+        self.assertFalse(bt_cal.isholiday(non_holiday4))
+        self.assertTrue(bt_cal.isholiday(labor_day))
+        self.assertFalse(bt_cal.isholiday(non_holiday3))
+        self.assertTrue(bt_cal.isholiday(christmas))
+
