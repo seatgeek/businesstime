@@ -1,3 +1,11 @@
+0.3.0
+=====
+* Fix a bug (#25) where holidays were not properly detected when later dates were tested before earlier ones, thanks @agans
+* Fix a bug (#13) where time deltas were calculated incorrectly when both start and end times are after business hours, thanks @airsource
+* `businesstime_hours` now returns a `timedelta` rather than a numeric value (#23), thanks @naes17
+* `businesstimedelta` now returns negative timedeltas when the start time is after the end time (#19), thanks @jeremyklein
+* Add 2017-2018 public holidays for Queensland/Brisbane Australia (#17), thanks @danc86
+
 0.2.1
 =====
 * Fix broken pypi package (#14), thanks @tarkatronic
