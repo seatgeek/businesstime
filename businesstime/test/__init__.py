@@ -248,38 +248,25 @@ class BusinessTimeTest(unittest.TestCase):
         self.assertEqual(
             self.bt.businesstime_hours(start, end), timedelta(hours=16))
 
-    def test_businesstime_holidays(self):
+    def test_businesstime_holidays_date_desc(self):
         """
         Test for https://github.com/seatgeek/businesstime/issues/25
         """
         bt_cal = BusinessTime(holidays=USFederalHolidays())
 
         non_holiday = datetime(2018, 5, 31, 12, 0)
-        memorial_day = datetime(2018, 5, 28, 12, 0)
+        memorial_day_2017 = datetime(2017, 5, 29, 12, 0)
+        memorial_day_2018 = datetime(2018, 5, 28, 12, 0)
 
-        is_non_holiday_holiday = bt_cal.isholiday(non_holiday)
-        is_memorial_day_holiday = bt_cal.isholiday(memorial_day)
-
-        self.assertFalse(is_non_holiday_holiday)
-        self.assertTrue(is_memorial_day_holiday)
-
-    def test_businesstime_holidays_2(self):
-        """
-        Test for https://github.com/seatgeek/businesstime/issues/25
-        """
-        bt_cal = BusinessTime(holidays=USFederalHolidays())
-
-        non_holiday = datetime(2018, 5, 31, 12, 0)
-        memorial_day = datetime(2018, 5, 28, 12, 0)
-
-        # Note that we have flipped the order from the above test
-        # to check if memorial day is a holiday before checking if
-        # the other (non-holiday) is a holiday.
-        # Results should be the same regardless of order of calling isholiday
-        is_memorial_day_holiday = bt_cal.isholiday(memorial_day)
+        # Note that we test the later memorial day first, internally populating
+        # the holidays cache starting with memorial day 2018. We then verify
+        # that memorial day 2017 is properly classified as a holiday.
+        is_memorial_day_2018_holiday = bt_cal.isholiday(memorial_day_2018)
+        is_memorial_day_2017_holiday = bt_cal.isholiday(memorial_day_2017)
         is_non_holiday_holiday = bt_cal.isholiday(non_holiday)
 
-        self.assertTrue(is_memorial_day_holiday)
+        self.assertTrue(is_memorial_day_2017_holiday)
+        self.assertTrue(is_memorial_day_2018_holiday)
         self.assertFalse(is_non_holiday_holiday)
 
     def test_lots_of_holidays(self):
