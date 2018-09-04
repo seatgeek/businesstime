@@ -1,3 +1,4 @@
 include setup.py
 include *.rst
 include *.txt
+recursive-include businesstime/holidays/data *.json
