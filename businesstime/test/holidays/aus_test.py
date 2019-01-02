@@ -22,6 +22,6 @@ class BrisbanePublicHolidaysTest(unittest.TestCase):
         holidays_gen = BrisbanePublicHolidays()
 
         def test():
-            return list(holidays_gen(date(2019, 1, 1), end=date(2019, 12, 31)))
+            return list(holidays_gen(date(2020, 1, 1), end=date(2020, 12, 31)))
 
         self.assertRaises(NotImplementedError, test)
