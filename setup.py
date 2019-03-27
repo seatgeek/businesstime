@@ -16,7 +16,12 @@ setup(
     url='http://github.com/seatgeek/businesstime',
     license=open('LICENSE.txt').read(),
     classifiers=[
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7'
     ],
     description=
     'A simple utility for calculating business time aware timedeltas between two datetimes',
