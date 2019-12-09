@@ -196,52 +196,20 @@ class BusinessTime(object):
         return datetime.timedelta(hours=(btd.days * open_hours + btd_hours))
 
     def add_business_hours(self, d, hours):
-        """
-        Returns a datetime corresponding to `d` plus `hours` business hours.
-        """
-        if hours < 0:
-            raise ValueError("hours parameter needs to be positive")
-
-        business_day_hours_span = self.business_hours[1].hour - self.business_hours[0].hour
-        days_to_add, hours_to_add = divmod(hours, business_day_hours_span)
-
-        # If adding the remaining hours crosses the bound
-        if d.replace(hour=d.hour + hours_to_add).time() > datetime.time(self.business_hours[1].hour):
-            days_to_add += 1
-            hours_to_add = d.hour + hours_to_add - self.business_hours[1].hour
-            d = d.replace(hour=self.business_hours[0].hour)
-        
-        # "+5" is a HACK to make sure we have enough business days to slice
-        business_days = self.iterbusinessdays(d, d + datetime.timedelta(days=days_to_add + 5))
-        try:
-            next_day = next(itertools.islice(business_days, days_to_add, None))
-            d = datetime.datetime.combine(next_day, d.time())
-        except StopIteration:
-            pass
-
-        d = d + datetime.timedelta(hours=hours_to_add)
-        return d
-
-    def substract_business_hours(self, d, hours):
         direction = 1 if hours >= 0 else -1
-        # reverse bounds if needed
         business_day_hours_span = self.business_hours[1].hour - self.business_hours[0].hour
-        bounds = map(lambda x: x.hour, self.business_hours)[::direction]
+        # reverse bounds if needed : when substracting upper bound will be business hour start
+        lower, upper = map(lambda x: x.hour, self.business_hours)[::direction]
         days_delta, hours_delta = divmod(abs(hours), business_day_hours_span)
 
         hours_delta *= direction
 
-        # If adding the remaining hours crosses the bound
-        if d.replace(hour=d.hour + hours_delta).time() < datetime.time(self.business_hours[0].hour):
+        # If adding the remaining hours crosses a bound
+        if d.replace(hour=d.hour + hours_delta).time() < datetime.time(self.business_hours[0].hour) or \
+           d.replace(hour=d.hour + hours_delta).time() > datetime.time(self.business_hours[1].hour):
             days_delta += direction
-            hours_delta = hours_delta + d.hour - self.business_hours[0].hour
-            d = d.replace(hour=self.business_hours[1].hour)
-
-        # If adding the remaining hours crosses the bound
-        if d.replace(hour=d.hour + hours_delta).time() > datetime.time(self.business_hours[1].hour):
-            days_delta += direction
-            hours_delta = d.hour + hours_delta - self.business_hours[1].hour
-            d = d.replace(hour=self.business_hours[0].hour)
+            hours_delta = hours_delta + d.hour - upper
+            d = d.replace(hour=lower)
 
         # "+7" is a HACK to make sure we have enough business days to slice
         business_days = self.iterbusinessdays(d, d + datetime.timedelta(days=days_delta + 7 * direction))
