@@ -225,9 +225,8 @@ class BusinessTime(object):
     def substract_business_hours(self, d, hours):
         direction = 1 if hours >= 0 else -1
         # reverse bounds if needed
-        bounds = map(lambda x: x.hour, self.business_hours)[::direction]
-        print(bounds)
         business_day_hours_span = self.business_hours[1].hour - self.business_hours[0].hour
+        bounds = map(lambda x: x.hour, self.business_hours)[::direction]
         days_delta, hours_delta = divmod(abs(hours), business_day_hours_span)
 
         hours_delta *= direction
@@ -243,17 +242,12 @@ class BusinessTime(object):
             days_delta += direction
             hours_delta = d.hour + hours_delta - self.business_hours[1].hour
             d = d.replace(hour=self.business_hours[0].hour)
-            print(days_delta)
 
-        # "+5" is a HACK to make sure we have enough business days to slice
-        business_days = self.iterbusinessdays(d, d + datetime.timedelta(days=days_delta + 5 * direction))
-
+        # "+7" is a HACK to make sure we have enough business days to slice
+        business_days = self.iterbusinessdays(d, d + datetime.timedelta(days=days_delta + 7 * direction))
         try:
             next_day = next(itertools.islice(business_days, abs(days_delta), None))
-            print('next_day: {}'.format(next_day))
-            
             d = datetime.datetime.combine(next_day, d.time())
-            print(d)
         except StopIteration:
             pass
 

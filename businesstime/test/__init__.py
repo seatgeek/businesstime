@@ -168,7 +168,7 @@ class BusinessTimeTest(unittest.TestCase):
 
     def test_substract_business_hours_over_holiday(self):
         start = datetime(2014, 1, 21, 10)
-        self.assertEqual(self.bt.substract_business_hours(start, -8),datetime(2014, 1, 19, 10))
+        self.assertEqual(self.bt.substract_business_hours(start, -8),datetime(2014, 1, 17, 10))
 
     def test_isduringbusinessday(self):
         self.assertTrue(
