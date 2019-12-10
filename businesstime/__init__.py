@@ -215,7 +215,7 @@ class BusinessTime(object):
             d = d.replace(hour=lower)
 
         # HACK: "+7" is to make sure we have enough business days to slice
-        business_days = self.iterbusinessdays(d, d + datetime.timedelta(days=days_delta + 7 * direction))
+        business_days = self.iterbusinessdays(d, d + datetime.timedelta(days=(days_delta + 7) * direction))
         try:
             next_day = next(itertools.islice(business_days, abs(days_delta), None))
             d = datetime.datetime.combine(next_day, d.time())
