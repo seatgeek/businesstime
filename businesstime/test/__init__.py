@@ -148,7 +148,7 @@ class BusinessTimeTest(unittest.TestCase):
 
     def test_substract_business_hours_more_days_ago_than_hack(self):
         start = datetime(2014, 1, 17, 15)
-        self.assertEqual(self.bt.add_business_hours(start, -32),datetime(2014, 1, 13, 15))
+        self.assertEqual(self.bt.add_business_hours(start, -32), datetime(2014, 1, 13, 15))
 
     def test_add_business_hours_next_day_minutes(self):
         start = datetime(2014, 1, 16, 14, 11)
