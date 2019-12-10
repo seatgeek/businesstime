@@ -30,9 +30,30 @@ class BusinessTimeTest(unittest.TestCase):
                 2014, 1, 18), datetime(2014, 1, 19), datetime(2014, 1, 20),
              datetime(2014, 1, 21)))
 
+    def test_iterdays_reverse(self):
+        end = datetime(2014, 1, 16)
+        start = datetime(2014, 1, 22)
+        self.assertEqual(
+            tuple(self.bt.iterdays(start, end)),
+            (
+                datetime(2014, 1, 22),
+                datetime(2014, 1, 21),
+                datetime(2014, 1, 20),
+                datetime(2014, 1, 19),
+                datetime(2014, 1, 18),
+                datetime(2014, 1, 17)
+            )
+        )
+
     def test_iterdays_same_day(self):
         start = datetime(2014, 1, 16, 12, 15)
         end = datetime(2014, 1, 16, 12, 16)
+        self.assertEqual(
+            tuple(self.bt.iterdays(start, end)), (datetime(2014, 1, 16), ))
+
+    def test_iterdays_same_day_reverse(self):
+        end = datetime(2014, 1, 16, 12, 15)
+        start = datetime(2014, 1, 16, 12, 16)
         self.assertEqual(
             tuple(self.bt.iterdays(start, end)), (datetime(2014, 1, 16), ))
 
@@ -51,6 +72,19 @@ class BusinessTimeTest(unittest.TestCase):
             (datetime(2014, 1, 16), datetime(2014, 1, 17), datetime(
                 2014, 1, 20), datetime(2014, 1, 21)))
 
+    def test_iterweekdays_reverse(self):
+        end = datetime(2014, 1, 16)
+        start = datetime(2014, 1, 22)
+        self.assertEqual(
+            tuple(self.bt.iterweekdays(start, end)),
+            (
+                datetime(2014, 1, 22),
+                datetime(2014, 1, 21),
+                datetime(2014, 1, 20),
+                datetime(2014, 1, 17),
+            )
+        )
+
     def test_iterbusinessdays(self):
         start = datetime(2014, 1, 16)
         end = datetime(2014, 1, 22)
@@ -58,12 +92,87 @@ class BusinessTimeTest(unittest.TestCase):
             tuple(self.bt.iterbusinessdays(start, end)), (datetime(
                 2014, 1, 16), datetime(2014, 1, 17), datetime(2014, 1, 21)))
 
+    def test_iterbusinessdays_reverse(self):
+        end = datetime(2014, 1, 16)
+        start = datetime(2014, 1, 22)
+        self.assertEqual(
+            tuple(self.bt.iterbusinessdays(start, end)),
+            (
+                datetime(2014, 1, 21),
+                datetime(2014, 1, 17)
+            )
+        )
+
     def test_iterbusinessdays_conforms_to_business_hours(self):
         start = datetime(2014, 1, 16, 17, 1)
         end = datetime(2014, 1, 23, 2)
         self.assertEqual(
             tuple(self.bt.iterbusinessdays(start, end)), (datetime(
                 2014, 1, 17), datetime(2014, 1, 21), datetime(2014, 1, 22)))
+
+    def test_iterbusinessdays_conforms_to_business_hours_reverse(self):
+        end = datetime(2014, 1, 16, 2)
+        start = datetime(2014, 1, 23, 1)
+        self.assertEqual(
+            tuple(self.bt.iterbusinessdays(start, end)),
+            (
+                datetime(2014, 1, 22),
+                datetime(2014, 1, 21),
+                datetime(2014, 1, 17)
+            )
+        )
+
+    def test_add_business_hours_same_day(self):
+        start = datetime(2014, 1, 16, 15)
+        self.assertEqual(self.bt.add_business_hours(start, 1),datetime(2014, 1, 16, 16))
+
+    def test_substract_business_hours_same_day(self):
+        start = datetime(2014, 1, 16, 15)
+        self.assertEqual(self.bt.add_business_hours(start, -1),datetime(2014, 1, 16, 14))
+
+    def test_add_business_hours_next_day(self):
+        start = datetime(2014, 1, 16, 15)
+        self.assertEqual(self.bt.add_business_hours(start, 8),datetime(2014, 1, 17, 15))
+
+    def test_substract_business_hours_previous_day(self):
+        start = datetime(2014, 1, 16, 15)
+        self.assertEqual(self.bt.add_business_hours(start, -8),datetime(2014, 1, 15, 15))
+
+    def test_add_business_hours_two_days_from_now(self):
+        start = datetime(2014, 1, 15, 15)
+        self.assertEqual(self.bt.add_business_hours(start, 16),datetime(2014, 1, 17, 15))
+
+    def test_substract_business_hours_two_days_ago(self):
+        start = datetime(2014, 1, 16, 15)
+        self.assertEqual(self.bt.add_business_hours(start, -16),datetime(2014, 1, 14, 15))
+
+    def test_substract_business_hours_more_days_ago_than_hack(self):
+        start = datetime(2014, 1, 17, 15)
+        self.assertEqual(self.bt.add_business_hours(start, -32), datetime(2014, 1, 13, 15))
+
+    def test_add_business_hours_next_day_minutes(self):
+        start = datetime(2014, 1, 16, 14, 11)
+        self.assertEqual(self.bt.add_business_hours(start, 3),datetime(2014, 1, 17, 9, 11))
+
+    def test_substract_business_hours_previous_day_minutes(self):
+        start = datetime(2014, 1, 16, 10, 12)
+        self.assertEqual(self.bt.add_business_hours(start, -2),datetime(2014, 1, 15, 16, 12))
+
+    def test_add_business_hours_over_the_weekend(self):
+        start = datetime(2014, 1, 10, 15)
+        self.assertEqual(self.bt.add_business_hours(start, 8),datetime(2014, 1, 13, 15))
+
+    def test_substract_business_hours_over_the_weekend(self):
+        start = datetime(2014, 1, 13, 15)
+        self.assertEqual(self.bt.add_business_hours(start, -8),datetime(2014, 1, 10, 15))
+
+    def test_add_business_hours_over_holiday(self):
+        start = datetime(2014, 1, 17, 15)
+        self.assertEqual(self.bt.add_business_hours(start, 3),datetime(2014, 1, 21, 10))
+
+    def test_substract_business_hours_over_holiday(self):
+        start = datetime(2014, 1, 21, 10)
+        self.assertEqual(self.bt.add_business_hours(start, -8),datetime(2014, 1, 17, 10))
 
     def test_isduringbusinessday(self):
         self.assertTrue(
@@ -293,4 +402,3 @@ class BusinessTimeTest(unittest.TestCase):
         self.assertTrue(bt_cal.isholiday(labor_day))
         self.assertFalse(bt_cal.isholiday(non_holiday3))
         self.assertTrue(bt_cal.isholiday(christmas))
-
