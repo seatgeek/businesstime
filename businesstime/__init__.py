@@ -202,7 +202,7 @@ class BusinessTime(object):
         direction = 1 if hours >= 0 else -1
         business_day_hours_span = self.business_hours[1].hour - self.business_hours[0].hour
         # reverse bounds if needed : when substracting upper bound will be business hour start
-        lower, upper = map(lambda x: x.hour, self.business_hours)[::direction]
+        lower, upper = list(map(lambda x: x.hour, self.business_hours))[::direction]
         days_delta, hours_delta = divmod(abs(hours), business_day_hours_span)
 
         hours_delta *= direction
