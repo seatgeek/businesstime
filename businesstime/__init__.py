@@ -69,7 +69,7 @@ class BusinessTime(object):
             yield curr
             return
         
-        # Not using timestamp to keep python compatibility
+        # Not using timestamp to keep python2 compatibility
         while step * time.mktime(curr.timetuple()) < step * time.mktime(end.timetuple()):
             yield curr
             curr = curr + datetime.timedelta(days=step)
@@ -214,7 +214,7 @@ class BusinessTime(object):
             hours_delta = hours_delta + d.hour - upper
             d = d.replace(hour=lower)
 
-        # "+7" is a HACK to make sure we have enough business days to slice
+        # HACK: "+7" is to make sure we have enough business days to slice
         business_days = self.iterbusinessdays(d, d + datetime.timedelta(days=days_delta + 7 * direction))
         try:
             next_day = next(itertools.islice(business_days, abs(days_delta), None))
