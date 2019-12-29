@@ -6,7 +6,7 @@ class QueenslandPublicHolidays(Holidays):
     """
     http://www.qld.gov.au/recreation/travel/holidays/public/
 
-    Current coverage is only 2013-2019.
+    Current coverage is only 2013-2021.
     """
 
     # Australian public holidays are legislated by each state individually for
@@ -14,7 +14,7 @@ class QueenslandPublicHolidays(Holidays):
     # general rules to apply across all years is too hard.
 
     _coverage_start_year = 2013
-    _coverage_end_year = 2019
+    _coverage_end_year = 2021
 
     holidays = [
         # New Year's Day
@@ -26,6 +26,8 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 1, 2),  # extra because 1 Jan is a Sunday
         date(2018, 1, 1),
         date(2019, 1, 1),
+        date(2020, 1, 1),
+        date(2021, 1, 1),
 
         # Australia Day
         date(2013, 1, 28),
@@ -35,6 +37,8 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 1, 26),
         date(2018, 1, 26),
         date(2019, 1, 28), # shifted because 26 Jan is a Saturday
+        date(2020, 1, 27), # shifted because 26 Jan is a Sunday
+        date(2021, 1, 26),
 
         # Good Friday
         date(2013, 3, 29),
@@ -44,6 +48,8 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 4, 14),
         date(2018, 4, 30),
         date(2019, 4, 19),
+        date(2020, 4, 10),
+        date(2021, 4, 2),
 
         # Easter Saturday, now called "the day after Good Friday"
         date(2013, 3, 30),
@@ -53,11 +59,15 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 4, 15),
         date(2018, 3, 31),
         date(2019, 4, 20),
+        date(2020, 4, 11),
+        date(2021, 4, 3),
 
         # Easter Sunday (added 2017)
         date(2017, 4, 16),
         date(2018, 4, 1),
         date(2019, 4, 21),
+        date(2020, 4, 12),
+        date(2021, 4, 4),
 
         # Easter Monday
         date(2013, 4, 1),
@@ -67,6 +77,8 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 4, 14),
         date(2018, 4, 2),
         date(2019, 4, 22),
+        date(2020, 4, 13),
+        date(2021, 4, 5),
 
         # ANZAC Day
         date(2013, 4, 25),
@@ -76,6 +88,8 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 4, 25),
         date(2018, 4, 25),
         date(2019, 4, 25),
+        date(2020, 4, 25),
+        date(2021, 4, 26), # shifted because 25 Apr is a Sunday
 
         # Labour Day
         date(2013, 10, 7),
@@ -85,6 +99,8 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 5, 1),
         date(2018, 5, 7),
         date(2019, 5, 6),
+        date(2020, 5, 4),
+        date(2021, 5, 3),
 
         # Queen's Birthday
         date(2013, 6, 10),
@@ -94,6 +110,8 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 10, 2),
         date(2018, 10, 1),
         date(2019, 10, 7),
+        date(2020, 10, 5),
+        date(2021, 10, 4),
 
         # Christmas Day
         date(2013, 12, 25),
@@ -104,6 +122,9 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 12, 25),
         date(2018, 12, 25),
         date(2019, 12, 25),
+        date(2020, 12, 25),
+        date(2021, 12, 25),
+        date(2021, 12, 27),  # extra because 25 Dec is a Saturday
 
         # Boxing Day
         date(2013, 12, 26),
@@ -114,6 +135,10 @@ class QueenslandPublicHolidays(Holidays):
         date(2017, 12, 26),
         date(2018, 12, 26),
         date(2019, 12, 26),
+        date(2020, 12, 26),
+        date(2020, 12, 28),  # extra because 26 Dec is a Saturday
+        date(2021, 12, 26),
+        date(2021, 12, 28),  # extra because 26 Dec is a Sunday
     ]
 
     def isholiday(self, dt):
@@ -135,6 +160,8 @@ class BrisbanePublicHolidays(QueenslandPublicHolidays):
         date(2017, 8, 16),
         date(2018, 8, 15),
         date(2019, 8, 14),
+        date(2020, 8, 12),
+        date(2021, 8, 11),
 
         # G20 (2014 only)
         date(2014, 11, 14),
